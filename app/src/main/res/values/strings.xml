@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">PinPoint</string>
+    <string-array name="darkmode_array">
+        <item>System</item>
+        <item>Dark</item>
+        <item>Light</item>
+    </string-array>
 </resources>
