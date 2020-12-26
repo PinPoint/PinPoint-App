@@ -3,6 +3,7 @@ package de.pinpoint.app.PreferenceStorage;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 public class PreferenceStorage {

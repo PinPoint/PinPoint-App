@@ -4,6 +4,8 @@ import android.content.Context;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
+import java.io.Serializable;
+
 import de.pinpoint.app.PreferenceStorage.KeyNotFoundException;
 import de.pinpoint.app.PreferenceStorage.PreferenceStorage;
 
