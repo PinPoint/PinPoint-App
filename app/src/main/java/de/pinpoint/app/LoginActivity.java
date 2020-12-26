@@ -16,11 +16,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.github.dhaval2404.colorpicker.ColorPickerDialog;
+import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog;
+import com.github.dhaval2404.colorpicker.listener.ColorListener;
+import com.github.dhaval2404.colorpicker.model.ColorShape;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class LoginActivity extends AppCompatActivity {
 
     private int theme = 0;
+
+    private String color = "#f44336";
 
     private EditText name = null;
 
@@ -35,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
 
         theme = PinPoint.getLogic().getTheme();
 
+        color = PinPoint.getLogic().getColor();
+
         Spinner spinner = findViewById(R.id.themeSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.darkmode_array, android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -44,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 theme = position;
-                PinPoint.getLogic().changePreferences(name.getText().toString(), "#324225", theme);
+                PinPoint.getLogic().changePreferences(name.getText().toString(), color, theme);
             }
 
             @Override
@@ -60,6 +68,29 @@ public class LoginActivity extends AppCompatActivity {
                 goBack();
             }
         });
+
+        Button button2 = findViewById(R.id.color);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] colorArray = new String[]{"#f44336", "#E91E63", "#9C27B0",
+                        "#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#4CAF50", "#CDDC39", "#FFC107"};
+
+                new MaterialColorPickerDialog
+                        .Builder(LoginActivity.this)
+                        .setTitle("Pick your color")
+                        .setColorShape(ColorShape.CIRCLE)
+                        .setDefaultColor("#f44336")
+                        .setColors(colorArray)
+                        .setColorListener(new ColorListener() {
+                            @Override
+                            public void onColorSelected(int color, String colorHex) {
+                                LoginActivity.this.color = colorHex;
+                            }
+                        })
+                        .show();
+            }
+        });
     }
 
     public void onBackPressed() {
@@ -70,7 +101,8 @@ public class LoginActivity extends AppCompatActivity {
         if (name.getText().length() < 3)
             name.setError("Name should be at least 3 characters");
         else {
-            PinPoint.getLogic().changePreferences(name.getText().toString(), "#324225", theme);
+            System.out.println(color);
+            PinPoint.getLogic().changePreferences(name.getText().toString(), color, theme);
             setResult(Activity.RESULT_OK, new Intent());
             finish();
         }
