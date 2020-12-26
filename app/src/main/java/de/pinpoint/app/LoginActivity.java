@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.content.res.AppCompatResources;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -12,41 +14,40 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private int theme = 0;
+
+    private TextInputEditText name = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Dark Mode Spinner
-        SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
-        final int darkModeSetting = sharedPreferences.getInt("darkModeSetting", 0);
+        theme = getIntent().getIntExtra("theme", 0);
 
-        Spinner spinner = (Spinner) findViewById(R.id.darkModeSpinner);
+        Spinner spinner = findViewById(R.id.themeSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.darkmode_array, android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setSelection(theme);
 
-        spinner.setSelection(darkModeSetting);
+        name = findViewById(R.id.nameTextInputEditText);
+
+        name.setText(getIntent().getStringExtra("name"));
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                editor.putInt("darkModeSetting", position);
-                editor.apply();
-                if (position == 1)
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                else if (position == 2)
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                else
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                theme = position;
             }
 
             @Override
@@ -59,9 +60,22 @@ public class LoginActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                goBack();
             }
         });
+    }
 
+    public void onBackPressed() {
+        goBack();
+    }
+
+    private void goBack() {
+        if (name.getText().length() < 3)
+            name.setError("Name should be at least 3 characters");
+        else {
+            setResult(Activity.RESULT_OK,
+                    new Intent().putExtra("theme", theme).putExtra("name", name.getText().toString()));
+            finish();
+        }
     }
 }
