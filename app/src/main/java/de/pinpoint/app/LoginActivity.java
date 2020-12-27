@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -69,8 +70,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        Button button2 = findViewById(R.id.color);
-        button2.setOnClickListener(new View.OnClickListener() {
+        final Button colorButton = findViewById(R.id.color);
+        colorButton.setBackgroundColor(Color.parseColor(color));
+        colorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String[] colorArray = new String[]{"#f44336", "#E91E63", "#9C27B0",
@@ -81,11 +83,13 @@ public class LoginActivity extends AppCompatActivity {
                         .setTitle("Pick your color")
                         .setColorShape(ColorShape.CIRCLE)
                         .setDefaultColor("#f44336")
+                        .setDefaultColor(color)
                         .setColors(colorArray)
                         .setColorListener(new ColorListener() {
                             @Override
                             public void onColorSelected(int color, String colorHex) {
                                 LoginActivity.this.color = colorHex;
+                                colorButton.setBackgroundColor(Color.parseColor(colorHex));
                             }
                         })
                         .show();
