@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         FloatingActionButton fab = findViewById(R.id.locationFab);
+
+        fab.setImageTintList(ContextCompat.getColorStateList(this, R.color.icons));
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,15 +109,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void switchFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Drawable icon;
         if (mapActive) {
             ft.replace(R.id.fragment, mapFragment);
-            bottomAppBar.setNavigationIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_arrow_back));
+            icon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_arrow_back);
 
         }
         else {
             ft.replace(R.id.fragment, listFragment);
-            bottomAppBar.setNavigationIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_map));
+            icon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_map);
         }
+        icon.setTint(getResources().getColor(R.color.icons));
+        bottomAppBar.setNavigationIcon(icon);
         ft.commit();
     }
 

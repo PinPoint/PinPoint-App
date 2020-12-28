@@ -5,4 +5,5 @@
     <color name="colorAccent">#3F51B5</color>
     <color name="colorError">#B00020</color>
     <color name="colorSuccess">#007E33</color>
+    <color name="icons">#FFFFFF</color>
 </resources>
