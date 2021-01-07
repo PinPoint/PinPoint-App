@@ -44,41 +44,32 @@ public class MainActivity extends AppCompatActivity {
 
         fab.setImageTintList(ContextCompat.getColorStateList(this, R.color.icons));
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar snackbar;
-                active = !active;
-                if (active) {
-                    view.setBackgroundTintList(AppCompatResources.getColorStateList(getApplicationContext(), R.color.colorSuccess));
-                    snackbar = Snackbar.make(view, "Location sharing activated", Snackbar.LENGTH_LONG);
-                } else {
-                    view.setBackgroundTintList(AppCompatResources.getColorStateList(getApplicationContext(), R.color.colorError));
-                    snackbar = Snackbar.make(view, "Location sharing deactivated", Snackbar.LENGTH_LONG);
-                }
-                snackbar.setAnchorView(view);
-                snackbar.show();
+        fab.setOnClickListener(view -> {
+            Snackbar snackbar;
+            active = !active;
+            if (active) {
+                view.setBackgroundTintList(AppCompatResources.getColorStateList(getApplicationContext(), R.color.colorSuccess));
+                snackbar = Snackbar.make(view, "Location sharing activated", Snackbar.LENGTH_LONG);
+            } else {
+                view.setBackgroundTintList(AppCompatResources.getColorStateList(getApplicationContext(), R.color.colorError));
+                snackbar = Snackbar.make(view, "Location sharing deactivated", Snackbar.LENGTH_LONG);
             }
+            snackbar.setAnchorView(view);
+            snackbar.show();
         });
 
         bottomAppBar = findViewById(R.id.bottomAppBar);
 
-        bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mapActive = !mapActive;
-                switchFragment();
-            }
+        bottomAppBar.setNavigationOnClickListener(view -> {
+            mapActive = !mapActive;
+            switchFragment();
         });
 
-        bottomAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                System.out.println(PinPoint.getLogic());
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-                return false;
-            }
+        bottomAppBar.setOnMenuItemClickListener(item -> {
+            System.out.println(PinPoint.getLogic());
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            return false;
         });
 
         requestPermissionsIfNecessary(new String[] {

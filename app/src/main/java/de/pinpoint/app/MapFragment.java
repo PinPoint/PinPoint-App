@@ -54,9 +54,11 @@ public class MapFragment extends Fragment {
         map.setMultiTouchControls(true);
         map.setTileSource(TileSourceFactory.MAPNIK);
 
+        /*
         RotationGestureOverlay mRotationGestureOverlay = new RotationGestureOverlay(context, map);
         mRotationGestureOverlay.setEnabled(true);
         map.getOverlays().add(mRotationGestureOverlay);
+         */
 
         IMapController mapController = map.getController();
         mapController.setZoom(9.5);

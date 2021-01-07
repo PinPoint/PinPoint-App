@@ -63,37 +63,25 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         Button button = findViewById(R.id.nextButton);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goBack();
-            }
-        });
+        button.setOnClickListener(v -> this.goBack());
 
         final Button colorButton = findViewById(R.id.color);
         colorButton.setBackgroundColor(Color.parseColor(color));
-        colorButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String[] colorArray = new String[]{"#f44336", "#E91E63", "#9C27B0",
-                        "#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#4CAF50", "#CDDC39", "#FFC107"};
+        colorButton.setOnClickListener(view -> {
+            String[] colorArray = new String[]{"#f44336", "#E91E63", "#9C27B0",
+                    "#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#4CAF50", "#CDDC39", "#FFC107"};
 
-                new MaterialColorPickerDialog
-                        .Builder(LoginActivity.this)
-                        .setTitle("Pick your color")
-                        .setColorShape(ColorShape.CIRCLE)
-                        .setDefaultColor("#f44336")
-                        .setDefaultColor(color)
-                        .setColors(colorArray)
-                        .setColorListener(new ColorListener() {
-                            @Override
-                            public void onColorSelected(int color, String colorHex) {
-                                LoginActivity.this.color = colorHex;
-                                colorButton.setBackgroundColor(Color.parseColor(colorHex));
-                            }
-                        })
-                        .show();
-            }
+            new MaterialColorPickerDialog
+                    .Builder(LoginActivity.this)
+                    .setTitle("Pick your color")
+                    .setColorShape(ColorShape.CIRCLE)
+                    .setDefaultColor(color)
+                    .setColors(colorArray)
+                    .setColorListener((color, colorHex) -> {
+                        LoginActivity.this.color = colorHex;
+                        colorButton.setBackgroundColor(Color.parseColor(colorHex));
+                    })
+                    .show();
         });
     }
 
