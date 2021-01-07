@@ -14,6 +14,7 @@ public class Logic {
     public Logic(Context context) {
         this.context = context;
         this.prefStorage = new PreferenceStorage(context);
+
         try {
             setTheme(prefStorage.getTheme());
         } catch (KeyNotFoundException ignored) {
