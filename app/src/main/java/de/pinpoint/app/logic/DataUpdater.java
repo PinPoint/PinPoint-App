@@ -49,8 +49,8 @@ public class DataUpdater implements Runnable {
 
     public void postUpdate() {
         try {
-            provider.invokeUpdate();
             client.postInfo(PinPoint.getLogic().getUserInfo());
+            provider.invokeUpdate();
         } catch (IOException e) {
             this.internetExceptionHandler.call(new InternetException(e.getMessage(), e));
         } catch(GPSException e){

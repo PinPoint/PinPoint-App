@@ -27,4 +27,8 @@ public class PinPoint extends Application {
     public static UIAccess getUiAccess() {
         return uiAccess;
     }
+
+    public static Context getmAppContext() {
+        return mAppContext;
+    }
 }

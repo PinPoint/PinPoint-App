@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean mapActive = false;
 
-    private Fragment mapFragment;
+    private MapFragment mapFragment;
     private Fragment listFragment;
 
     private Toolbar bottomAppBar;
@@ -78,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mapFragment = new MapFragment();
+
+        PinPoint.getLogic().addUpdateListener(mapFragment);
+
         listFragment = new ListFragment();
 
         switchFragment();

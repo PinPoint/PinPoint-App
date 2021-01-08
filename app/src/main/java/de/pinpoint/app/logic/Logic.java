@@ -14,6 +14,7 @@ import de.pinpoint.app.UserInfoAdapter;
 import de.pinpoint.app.preferencestorage.KeyNotFoundException;
 import de.pinpoint.app.preferencestorage.PreferenceStorage;
 import de.pinpoint.client.dataprovider.DataProvider;
+import de.pinpoint.client.dataprovider.UpdateListener;
 import de.pinpoint.client.locationclient.LocationClient;
 import de.pinpoint.client.locationclient.PinPointPosition;
 import de.pinpoint.client.locationclient.RestClientFactory;
@@ -39,11 +40,17 @@ public class Logic {
         }
 
         this.positionProvider = new PositionProvider(context);
+
+        RestClientFactory factory = new RestClientFactory();
+        LocationClient client = factory.produceRestClient("https://thedst.de/pinpoint/api/v1/");
+        this.provider = new DataProvider(client);
+
+
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             while(true)
             try {
-                this.initializeConnection();
+                this.initializeConnection(client);
                 break;
             } catch (IOException e) {
                 noInternet(new InternetException("could not initialize first connection", e));
@@ -51,9 +58,7 @@ public class Logic {
         });
     }
 
-    private void initializeConnection() throws IOException {
-        RestClientFactory factory = new RestClientFactory();
-        LocationClient client = factory.produceRestClient("https://thedst.de/pinpoint/api/v1/");
+    private void initializeConnection(LocationClient client) throws IOException {
         UUID uuid;
         if(this.prefStorage.existsUUID()){
             uuid = this.prefStorage.getUUID();
@@ -62,7 +67,7 @@ public class Logic {
             this.prefStorage.setUUID(uuid);
         }
         provider = new DataProvider(client, uuid);
-        provider.setUpdateListener(uAdapter);
+        provider.addUpdateListener(uAdapter);
 
         updater = new DataUpdater(client, provider);
         updater.setInternetExceptionHandler(this::noInternet);
@@ -154,5 +159,9 @@ public class Logic {
 
     public UserInfoAdapter getUAdapter() {
         return uAdapter;
+    }
+
+    public void addUpdateListener(UpdateListener listener) {
+        provider.addUpdateListener(listener);
     }
 }
