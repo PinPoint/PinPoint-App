@@ -164,4 +164,8 @@ public class Logic {
     public void addUpdateListener(UpdateListener listener) {
         provider.addUpdateListener(listener);
     }
+
+    public PinPointPosition getOwnPosition() throws GPSException {
+        return this.positionProvider.getPosition();
+    }
 }
