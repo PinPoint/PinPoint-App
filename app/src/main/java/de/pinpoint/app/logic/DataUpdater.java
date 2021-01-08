@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import de.pinpoint.app.MainActivity;
 import de.pinpoint.app.PinPoint;
+import de.pinpoint.app.UserInfoAdapter;
 import de.pinpoint.client.dataprovider.DataProvider;
 import de.pinpoint.client.locationclient.LocationClient;
 
@@ -39,7 +40,7 @@ public class DataUpdater implements Runnable {
         while (this.running) {
             this.postUpdate();
             try {
-                Thread.sleep(TimeUnit.SECONDS.toMillis(10));
+                Thread.sleep(TimeUnit.SECONDS.toMillis(5));
             } catch (InterruptedException e) {
 
             }

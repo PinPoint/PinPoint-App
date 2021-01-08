@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import de.pinpoint.app.PinPoint;
+import de.pinpoint.app.UserInfoAdapter;
 import de.pinpoint.app.preferencestorage.KeyNotFoundException;
 import de.pinpoint.app.preferencestorage.PreferenceStorage;
 import de.pinpoint.client.dataprovider.DataProvider;
@@ -24,10 +25,13 @@ public class Logic {
     private DataProvider provider;
     private PositionProvider positionProvider;
     private DataUpdater updater;
+    private UserInfoAdapter uAdapter;
 
     public Logic(Context context) {
         this.context = context;
         this.prefStorage = new PreferenceStorage(context);
+
+        this.uAdapter = new UserInfoAdapter(context);
 
         try {
             setTheme(prefStorage.getTheme());
@@ -58,10 +62,11 @@ public class Logic {
             this.prefStorage.setUUID(uuid);
         }
         provider = new DataProvider(client, uuid);
+        provider.setUpdateListener(uAdapter);
+
         updater = new DataUpdater(client, provider);
         updater.setInternetExceptionHandler(this::noInternet);
         updater.setGpsExceptionHandler(this::noGPS);
-        //updater.start();
     }
 
     private void noInternet(InternetException cause){
@@ -145,5 +150,9 @@ public class Logic {
 
     public boolean isUpdaterRunning() {
         return updater.isRunning();
+    }
+
+    public UserInfoAdapter getUAdapter() {
+        return uAdapter;
     }
 }

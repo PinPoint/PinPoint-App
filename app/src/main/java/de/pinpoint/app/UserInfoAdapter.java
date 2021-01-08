@@ -3,6 +3,7 @@ package de.pinpoint.app;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,27 +17,33 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import de.pinpoint.client.dataprovider.UpdateListener;
 import de.pinpoint.client.locationclient.UserInfo;
 
-public class UserInfoAdapter extends ArrayAdapter<UserInfo> {
+public class UserInfoAdapter extends ArrayAdapter<UserInfo> implements UpdateListener {
 
     private Context mContext;
-    private List<UserInfo> userInfoList = new ArrayList<>();
 
     public UserInfoAdapter(@NonNull Context context, ArrayList<UserInfo> list) {
         super(context, 0 , list);
         mContext = context;
-        userInfoList = list;
     }
+
+    public UserInfoAdapter(@NonNull Context context) {
+        super(context, 0 , new ArrayList<>());
+        mContext = context;
+    }
+
 
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
         if(listItem == null)
             listItem = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
 
-        UserInfo currentUserInfo = userInfoList.get(position);
+        UserInfo currentUserInfo = this.getItem(position);
 
         TextView name = (TextView) listItem.findViewById(R.id.name);
         name.setText(currentUserInfo.getName());
@@ -53,5 +60,14 @@ public class UserInfoAdapter extends ArrayAdapter<UserInfo> {
         color.setImageDrawable(wrappedDrawable);
 
         return listItem;
+    }
+
+    @Override
+    public void onUpdate(Collection<UserInfo> collection) {
+        Handler mainHandler = new Handler(mContext.getMainLooper());
+        mainHandler.post(() -> {
+            this.clear();
+            this.addAll(collection);
+        });
     }
 }
