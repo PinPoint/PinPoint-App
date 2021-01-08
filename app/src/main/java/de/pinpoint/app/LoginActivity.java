@@ -1,13 +1,7 @@
 package de.pinpoint.app;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.content.res.AppCompatResources;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -17,9 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.github.dhaval2404.colorpicker.ColorPickerDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog;
-import com.github.dhaval2404.colorpicker.listener.ColorListener;
 import com.github.dhaval2404.colorpicker.model.ColorShape;
 import com.google.android.material.textfield.TextInputLayout;
 

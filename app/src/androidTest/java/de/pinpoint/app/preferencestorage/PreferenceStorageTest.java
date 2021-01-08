@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
 
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest

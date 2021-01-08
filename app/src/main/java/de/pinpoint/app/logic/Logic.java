@@ -6,10 +6,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import java.io.IOException;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import de.pinpoint.app.preferencestorage.KeyNotFoundException;
 import de.pinpoint.app.preferencestorage.PreferenceStorage;
@@ -24,6 +22,7 @@ public class Logic {
     private PreferenceStorage prefStorage;
     private DataProvider provider;
     private PositionProvider positionProvider;
+    private DataUpdater updater;
 
     public Logic(Context context) {
         this.context = context;

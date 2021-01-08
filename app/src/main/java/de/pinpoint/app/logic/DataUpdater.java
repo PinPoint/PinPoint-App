@@ -1,19 +1,13 @@
 package de.pinpoint.app.logic;
 
-import android.os.Handler;
-import android.provider.ContactsContract;
-
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 import de.pinpoint.app.PinPoint;
 import de.pinpoint.client.dataprovider.DataProvider;
 import de.pinpoint.client.locationclient.LocationClient;
-import de.pinpoint.client.locationclient.RestClientFactory;
 
 public class DataUpdater extends TimerTask {
 
@@ -67,5 +61,7 @@ public class DataUpdater extends TimerTask {
         }
     }
 
-
+    public boolean isRunning() {
+        return running;
+    }
 }
