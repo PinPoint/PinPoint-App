@@ -5,22 +5,22 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
+import de.pinpoint.app.MainActivity;
 import de.pinpoint.app.PinPoint;
 import de.pinpoint.client.dataprovider.DataProvider;
 import de.pinpoint.client.locationclient.LocationClient;
 
-public class DataUpdater extends TimerTask {
+public class DataUpdater implements Runnable {
 
     private final DataProvider provider;
     private boolean running;
-    private Timer timer;
+    private Thread updaterThread;
     private LocationClient client;
     private Callback<InternetException> internetExceptionHandler;
     private Callback<GPSException> gpsExceptionHandler;
 
     public DataUpdater(LocationClient client, DataProvider provider) {
         this.provider = provider;
-        this.timer = new Timer();
         this.internetExceptionHandler = Exception::printStackTrace;
         this.gpsExceptionHandler = Exception::printStackTrace;
         this.client = client;
@@ -36,6 +36,17 @@ public class DataUpdater extends TimerTask {
 
     @Override
     public void run() {
+        while (this.running) {
+            this.postUpdate();
+            try {
+                Thread.sleep(TimeUnit.SECONDS.toMillis(10));
+            } catch (InterruptedException e) {
+
+            }
+        }
+    }
+
+    public void postUpdate() {
         try {
             provider.invokeUpdate();
             client.postInfo(PinPoint.getLogic().getUserInfo());
@@ -50,14 +61,15 @@ public class DataUpdater extends TimerTask {
         if (running) {
             return;
         }
-        timer.schedule(this, 0, TimeUnit.SECONDS.toMillis(10));
+        updaterThread = new Thread(this);
+        updaterThread.start();
         this.running = true;
     }
 
     public void stop() {
         if (running) {
-            timer.cancel();
             this.running = false;
+            updaterThread.interrupt();
         }
     }
 

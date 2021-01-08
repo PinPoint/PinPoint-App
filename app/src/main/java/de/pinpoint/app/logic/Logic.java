@@ -9,6 +9,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import de.pinpoint.app.PinPoint;
 import de.pinpoint.app.preferencestorage.KeyNotFoundException;
 import de.pinpoint.app.preferencestorage.PreferenceStorage;
 import de.pinpoint.client.dataprovider.DataProvider;
@@ -57,20 +58,25 @@ public class Logic {
             this.prefStorage.setUUID(uuid);
         }
         provider = new DataProvider(client, uuid);
-        DataUpdater updater = new DataUpdater(client, provider);
+        updater = new DataUpdater(client, provider);
         updater.setInternetExceptionHandler(this::noInternet);
         updater.setGpsExceptionHandler(this::noGPS);
-        updater.start();
+        //updater.start();
     }
 
     private void noInternet(InternetException cause){
         System.out.println("Server error: " + cause.getClass().getName());
         // TODO popup
+
+        this.stopUpdater();
     }
 
     private void noGPS(GPSException cause){
         System.out.println("GPS error: " + cause.getClass().getName());
         // TODO popup
+        cause.printStackTrace();
+
+        this.stopUpdater();
     }
 
     public UserInfo getUserInfo() throws GPSException {
@@ -87,6 +93,20 @@ public class Logic {
         prefStorage.setColor(color);
         prefStorage.setTheme(theme);
         setTheme(theme);
+    }
+
+    public void startUpdater() {
+        if (updater == null)
+            return;
+        PinPoint.getUiAccess().setButtonEnabled();
+        updater.start();
+    }
+
+    public void stopUpdater() {
+        PinPoint.getUiAccess().setButtonDisabled();
+        if (updater == null)
+            return;
+        updater.stop();
     }
 
     public int getTheme() {
@@ -123,4 +143,7 @@ public class Logic {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
+    public boolean isUpdaterRunning() {
+        return updater.isRunning();
+    }
 }

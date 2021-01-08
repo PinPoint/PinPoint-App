@@ -19,6 +19,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
+import okhttp3.CertificatePinner;
+
 public class MainActivity extends AppCompatActivity {
 
     private boolean active = false;
@@ -39,17 +41,18 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.locationFab);
 
+        PinPoint.getUiAccess().setFab(fab);
+
         fab.setImageTintList(ContextCompat.getColorStateList(this, R.color.icons));
 
         fab.setOnClickListener(view -> {
             Snackbar snackbar;
-            active = !active;
-            if (active) {
-                view.setBackgroundTintList(AppCompatResources.getColorStateList(getApplicationContext(), R.color.colorSuccess));
-                snackbar = Snackbar.make(view, "Location sharing activated", Snackbar.LENGTH_LONG);
-            } else {
-                view.setBackgroundTintList(AppCompatResources.getColorStateList(getApplicationContext(), R.color.colorError));
+            if (PinPoint.getLogic().isUpdaterRunning()) {
+                PinPoint.getLogic().stopUpdater();
                 snackbar = Snackbar.make(view, "Location sharing deactivated", Snackbar.LENGTH_LONG);
+            } else {
+                PinPoint.getLogic().startUpdater();
+                snackbar = Snackbar.make(view, "Location sharing activated", Snackbar.LENGTH_LONG);
             }
             snackbar.setAnchorView(view);
             snackbar.show();
