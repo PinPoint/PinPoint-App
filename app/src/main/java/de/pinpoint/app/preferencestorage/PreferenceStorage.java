@@ -1,9 +1,8 @@
-package de.pinpoint.app.PreferenceStorage;
+package de.pinpoint.app.preferencestorage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 public class PreferenceStorage {
@@ -51,6 +50,10 @@ public class PreferenceStorage {
             throw new KeyNotFoundException("uuid");
 
         return UUID.fromString(sharedPref.getString("uuid", null));
+    }
+
+    public boolean existsUUID(){
+        return sharedPref.contains("uuid");
     }
 
     public void setTheme(int theme) {

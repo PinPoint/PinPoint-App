@@ -3,7 +3,7 @@ package de.pinpoint.app;
 import android.app.Application;
 import android.content.Context;
 
-import de.pinpoint.app.Logic.Logic;
+import de.pinpoint.app.logic.Logic;
 
 public class PinPoint extends Application {
     private static Context mAppContext;

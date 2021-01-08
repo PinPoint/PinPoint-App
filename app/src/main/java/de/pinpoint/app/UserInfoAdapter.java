@@ -19,7 +19,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.pinpoint.client.LocationClient.UserInfo;
+import de.pinpoint.client.locationclient.UserInfo;
 
 public class UserInfoAdapter extends ArrayAdapter<UserInfo> {
 

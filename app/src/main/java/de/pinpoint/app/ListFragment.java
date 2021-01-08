@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import de.pinpoint.client.LocationClient.PinPointPosition;
-import de.pinpoint.client.LocationClient.UserInfo;
+import de.pinpoint.client.locationclient.PinPointPosition;
+import de.pinpoint.client.locationclient.UserInfo;
 
 public class ListFragment extends Fragment {
     private ListView listView;
