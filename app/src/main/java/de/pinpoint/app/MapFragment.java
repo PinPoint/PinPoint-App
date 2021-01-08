@@ -90,6 +90,12 @@ public class MapFragment extends Fragment implements UpdateListener {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.map = null;
+    }
+
+    @Override
     public void onUpdate(Collection<UserInfo> collection) {
         Handler mainHandler = new Handler(PinPoint.getmAppContext().getMainLooper());
         mainHandler.post(() -> this.updateMarkers(collection));
