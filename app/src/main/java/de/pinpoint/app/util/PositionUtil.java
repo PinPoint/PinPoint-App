@@ -6,15 +6,15 @@ import de.pinpoint.client.locationclient.PinPointPosition;
 
 public class PositionUtil {
 
-    public static GeoPoint toGeoPoint(PinPointPosition position){
+    public static GeoPoint toGeoPoint(PinPointPosition position) {
         return new GeoPoint(position.getLatitude(), position.getLongitude());
     }
 
-    public static PinPointPosition fromGeoPoint(GeoPoint geoPoint){
+    public static PinPointPosition fromGeoPoint(GeoPoint geoPoint) {
         return new PinPointPosition(geoPoint.getLongitude(), geoPoint.getLatitude());
     }
 
-    public static double getDistance(PinPointPosition pos1, PinPointPosition pos2){
+    public static double getDistance(PinPointPosition pos1, PinPointPosition pos2) {
         GeoPoint p1 = toGeoPoint(pos1);
         GeoPoint p2 = toGeoPoint(pos2);
         return p1.distanceToAsDouble(p2);

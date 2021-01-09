@@ -12,14 +12,6 @@ public class PinPoint extends Application {
 
     private static UIAccess uiAccess;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mAppContext = getApplicationContext();
-        logic = new Logic(mAppContext);
-        uiAccess = new UIAccess(mAppContext);
-    }
-
     public static Logic getLogic() {
         return logic;
     }
@@ -30,5 +22,13 @@ public class PinPoint extends Application {
 
     public static Context getmAppContext() {
         return mAppContext;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mAppContext = getApplicationContext();
+        logic = new Logic(mAppContext);
+        uiAccess = new UIAccess(mAppContext);
     }
 }

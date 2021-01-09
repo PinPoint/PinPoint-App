@@ -7,25 +7,26 @@
     tools:context=".LoginActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="56dp"
+        android:orientation="vertical"
         android:paddingLeft="24dp"
+        android:paddingTop="56dp"
         android:paddingRight="24dp">
 
-        <ImageView android:src="@drawable/ic_location_on"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="72dp"
-            android:layout_marginBottom="24dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"
             android:contentDescription="PinPoint Logo"
+            android:src="@drawable/ic_location_on"
             app:tint="@color/colorPrimary" />
 
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:id="@+id/nameTextField"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
@@ -33,26 +34,26 @@
             app:boxStrokeColor="@color/colorPrimary">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
                 android:inputType="textFilter"
-                android:maxLength="16"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:maxLength="16" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/color"
+            style="?attr/materialButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Color"
             android:layout_gravity="right"
-            style="?attr/materialButtonStyle" />
+            android:text="Color" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Theme"/>
+            android:text="Theme" />
 
         <Spinner
             android:id="@+id/themeSpinner"
@@ -62,11 +63,11 @@
 
         <Button
             android:id="@+id/nextButton"
+            style="?attr/materialButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Next"
             android:layout_gravity="right"
-            style="?attr/materialButtonStyle" />
+            android:text="Next" />
 
     </LinearLayout>
 

@@ -20,16 +20,12 @@ import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private boolean active = false;
-
     private boolean mapActive = false;
-
     private MapFragment mapFragment;
     private ListFragment listFragment;
-
     private Toolbar bottomAppBar;
-
-    private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-        requestPermissionsIfNecessary(new String[] {
+        requestPermissionsIfNecessary(new String[]{
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         });
@@ -113,8 +109,7 @@ public class MainActivity extends AppCompatActivity {
         if (mapActive) {
             ft.replace(R.id.fragment, mapFragment);
             icon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_arrow_back);
-        }
-        else {
+        } else {
             ft.replace(R.id.fragment, listFragment);
             icon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_map);
         }

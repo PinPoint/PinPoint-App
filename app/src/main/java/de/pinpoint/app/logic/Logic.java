@@ -16,7 +16,6 @@ import de.pinpoint.app.PinPoint;
 import de.pinpoint.app.UserInfoAdapter;
 import de.pinpoint.app.preferencestorage.KeyNotFoundException;
 import de.pinpoint.app.preferencestorage.PreferenceStorage;
-import de.pinpoint.app.util.UserInfoDistanceComparator;
 import de.pinpoint.client.dataprovider.DataProvider;
 import de.pinpoint.client.dataprovider.UpdateListener;
 import de.pinpoint.client.locationclient.LocationClient;
@@ -52,19 +51,19 @@ public class Logic {
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
-            while(true)
-            try {
-                this.initializeConnection(client);
-                break;
-            } catch (IOException e) {
-                noInternet(new InternetException("could not initialize first connection", e));
-            }
+            while (true)
+                try {
+                    this.initializeConnection(client);
+                    break;
+                } catch (IOException e) {
+                    noInternet(new InternetException("could not initialize first connection", e));
+                }
         });
     }
 
     private void initializeConnection(LocationClient client) throws IOException {
         UUID uuid;
-        if(this.prefStorage.existsUUID()){
+        if (this.prefStorage.existsUUID()) {
             uuid = this.prefStorage.getUUID();
         } else {
             uuid = client.getNewUuid();
@@ -78,7 +77,7 @@ public class Logic {
         updater.setGpsExceptionHandler(this::noGPS);
     }
 
-    private void noInternet(InternetException cause){
+    private void noInternet(InternetException cause) {
         System.out.println("Connection to server failed: " +
                 cause.getClass().getSimpleName() + " " + cause.getMessage());
 
@@ -93,7 +92,7 @@ public class Logic {
         this.stopUpdater();
     }
 
-    private void noGPS(GPSException cause){
+    private void noGPS(GPSException cause) {
         System.out.println("Gettings GPS Data failed: " +
                 cause.getClass().getSimpleName() + " " + cause.getMessage());
 
@@ -147,6 +146,15 @@ public class Logic {
         return 0;
     }
 
+    private void setTheme(int theme) {
+        if (theme == 0)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        else if (theme == 1)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        else
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+    }
+
     public String getName() {
         try {
             return prefStorage.getName();
@@ -161,15 +169,6 @@ public class Logic {
         } catch (KeyNotFoundException e) {
             return "#f44336";
         }
-    }
-
-    private void setTheme(int theme) {
-        if (theme == 0)
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-        else if (theme == 1)
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        else
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     public boolean isUpdaterRunning() {

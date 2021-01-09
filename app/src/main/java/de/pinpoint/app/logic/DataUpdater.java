@@ -50,7 +50,7 @@ public class DataUpdater implements Runnable {
             provider.invokeUpdate();
         } catch (IOException e) {
             this.internetExceptionHandler.call(new InternetException(e.getMessage(), e));
-        } catch(GPSException e){
+        } catch (GPSException e) {
             this.gpsExceptionHandler.call(e);
         }
     }

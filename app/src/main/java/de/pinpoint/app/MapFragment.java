@@ -138,7 +138,7 @@ public class MapFragment extends Fragment implements UpdateListener {
         Collection<Marker> toRemove = new ArrayList<>();
         toRemove.addAll(markerByUuid.values());
 
-        for (UserInfo info: collection) {
+        for (UserInfo info : collection) {
             Marker marker = getOrCreateMarker(info);
             PinPointPosition position = info.getPosition();
             marker.setPosition(PositionUtil.toGeoPoint(position));
@@ -147,11 +147,11 @@ public class MapFragment extends Fragment implements UpdateListener {
         }
 
         Iterator<Map.Entry<UUID, Marker>> itr = this.markerByUuid.entrySet().iterator();
-        while(itr.hasNext()){
+        while (itr.hasNext()) {
             Map.Entry<UUID, Marker> entry = itr.next();
             UUID uuid = entry.getKey();
             Marker marker = entry.getValue();
-            if(toRemove.contains(marker)){
+            if (toRemove.contains(marker)) {
                 map.getOverlays().remove(marker);
                 itr.remove();
             }

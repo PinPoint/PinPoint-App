@@ -13,12 +13,6 @@ public class PreferenceStorage {
         sharedPref = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
     }
 
-    public void setName(String name) {
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("name", name);
-        editor.apply();
-    }
-
     public String getName() throws KeyNotFoundException {
         if (!sharedPref.contains("name"))
             throw new KeyNotFoundException("name");
@@ -26,9 +20,9 @@ public class PreferenceStorage {
         return sharedPref.getString("name", null);
     }
 
-    public void setColor(String color) {
+    public void setName(String name) {
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("color", color);
+        editor.putString("name", name);
         editor.apply();
     }
 
@@ -39,9 +33,9 @@ public class PreferenceStorage {
         return sharedPref.getString("color", "#2196F3");
     }
 
-    public void setUUID(UUID uuid) {
+    public void setColor(String color) {
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("uuid", uuid.toString());
+        editor.putString("color", color);
         editor.apply();
     }
 
@@ -52,14 +46,14 @@ public class PreferenceStorage {
         return UUID.fromString(sharedPref.getString("uuid", null));
     }
 
-    public boolean existsUUID(){
-        return sharedPref.contains("uuid");
+    public void setUUID(UUID uuid) {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("uuid", uuid.toString());
+        editor.apply();
     }
 
-    public void setTheme(int theme) {
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("theme", theme);
-        editor.apply();
+    public boolean existsUUID() {
+        return sharedPref.contains("uuid");
     }
 
     public int getTheme() throws KeyNotFoundException {
@@ -67,6 +61,12 @@ public class PreferenceStorage {
             throw new KeyNotFoundException("theme");
 
         return sharedPref.getInt("theme", -1);
+    }
+
+    public void setTheme(int theme) {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("theme", theme);
+        editor.apply();
     }
 
     public void clear() {
