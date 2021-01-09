@@ -1,6 +1,8 @@
 package de.pinpoint.app.logic;
 
 import android.content.Context;
+import android.os.Handler;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -14,6 +16,7 @@ import de.pinpoint.app.PinPoint;
 import de.pinpoint.app.UserInfoAdapter;
 import de.pinpoint.app.preferencestorage.KeyNotFoundException;
 import de.pinpoint.app.preferencestorage.PreferenceStorage;
+import de.pinpoint.app.util.UserInfoDistanceComparator;
 import de.pinpoint.client.dataprovider.DataProvider;
 import de.pinpoint.client.dataprovider.UpdateListener;
 import de.pinpoint.client.locationclient.LocationClient;
@@ -76,16 +79,31 @@ public class Logic {
     }
 
     private void noInternet(InternetException cause){
-        System.out.println("Server error: " + cause.getClass().getName());
-        // TODO popup
+        System.out.println("Connection to server failed: " +
+                cause.getClass().getSimpleName() + " " + cause.getMessage());
+
+        Handler mainHandler = new Handler(context.getMainLooper());
+        mainHandler.post(() -> {
+            String text = "No internet connection";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        });
 
         this.stopUpdater();
     }
 
     private void noGPS(GPSException cause){
-        System.out.println("GPS error: " + cause.getClass().getName());
-        // TODO popup
-        cause.printStackTrace();
+        System.out.println("Gettings GPS Data failed: " +
+                cause.getClass().getSimpleName() + " " + cause.getMessage());
+
+        Handler mainHandler = new Handler(context.getMainLooper());
+        mainHandler.post(() -> {
+            String text = "No GPS";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        });
 
         this.stopUpdater();
     }
@@ -176,5 +194,9 @@ public class Logic {
 
     public void clearUserInfoAdapter() {
         uAdapter.clear();
+    }
+
+    public void setAContext(Context aContext) {
+        uAdapter.setAContext(aContext);
     }
 }

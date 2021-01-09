@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import de.pinpoint.client.locationclient.UserInfo;
 public class UserInfoAdapter extends ArrayAdapter<UserInfo> implements UpdateListener {
 
     private Context mContext;
+    private Context aContext;
 
     public UserInfoAdapter(@NonNull Context context, ArrayList<UserInfo> list) {
         super(context, 0, list);
@@ -44,7 +46,7 @@ public class UserInfoAdapter extends ArrayAdapter<UserInfo> implements UpdateLis
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
         if (listItem == null)
-            listItem = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
+            listItem = LayoutInflater.from(aContext).inflate(R.layout.list_item, parent, false);
 
         UserInfo currentUserInfo = this.getItem(position);
 
@@ -62,6 +64,7 @@ public class UserInfoAdapter extends ArrayAdapter<UserInfo> implements UpdateLis
         }
 
         ImageView color = (ImageView) listItem.findViewById(R.id.color);
+
 
         Drawable unwrappedDrawable = AppCompatResources.getDrawable(mContext, R.drawable.ic_circle);
         Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
@@ -85,5 +88,9 @@ public class UserInfoAdapter extends ArrayAdapter<UserInfo> implements UpdateLis
             } catch (GPSException e) {
             }
         });
+    }
+
+    public void setAContext(Context aContext) {
+        this.aContext = aContext;
     }
 }
