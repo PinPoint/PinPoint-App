@@ -53,11 +53,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return false;
         });
-        requestPermissionsIfNecessary(new String[]{
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-        });
+
         PinPoint.getLogic().setAContext(this);
+
         mapFragment = new MapFragment();
         PinPoint.getLogic().addUpdateListener(mapFragment);
         listFragment = new ListFragment();
@@ -103,19 +101,5 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
     }
 
-    private void requestPermissionsIfNecessary(String[] permissions) {
-        ArrayList<String> permissionsToRequest = new ArrayList<>();
-        for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(this, permission)
-                    != PackageManager.PERMISSION_GRANTED) {
-                permissionsToRequest.add(permission);
-            }
-        }
-        if (permissionsToRequest.size() > 0) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    permissionsToRequest.toArray(new String[0]),
-                    REQUEST_PERMISSIONS_REQUEST_CODE);
-        }
-    }
+
 }
