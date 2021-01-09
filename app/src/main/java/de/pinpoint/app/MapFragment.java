@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.UUID;
 
+import de.pinpoint.app.logic.GPSException;
 import de.pinpoint.app.marker.MarkerIconCreator;
 import de.pinpoint.client.dataprovider.UpdateListener;
 import de.pinpoint.client.locationclient.PinPointPosition;
@@ -80,7 +81,17 @@ public class MapFragment extends Fragment implements UpdateListener {
 
         IMapController mapController = map.getController();
         mapController.setZoom(9.5);
-        GeoPoint startPoint = new GeoPoint(52.516275, 13.377704);
+        GeoPoint startPoint;
+
+        try {
+            PinPointPosition ownPosition = PinPoint.getLogic().getOwnPosition();
+            double latitude = ownPosition.getLatitude();
+            double longitude = ownPosition.getLongitude();
+            startPoint = new GeoPoint(latitude, longitude);
+        } catch (GPSException e) {
+            startPoint = new GeoPoint(52.516275, 13.377704);
+        }
+
         mapController.setCenter(startPoint);
 
         MyLocationNewOverlay mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context), map);
