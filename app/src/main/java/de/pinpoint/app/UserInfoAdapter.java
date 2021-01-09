@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import de.pinpoint.app.logic.GPSException;
-import de.pinpoint.app.util.DistanceUtil;
+import de.pinpoint.app.util.PositionUtil;
 import de.pinpoint.app.util.UserInfoDistanceComparator;
 import de.pinpoint.client.dataprovider.UpdateListener;
 import de.pinpoint.client.locationclient.PinPointPosition;
@@ -55,7 +55,7 @@ public class UserInfoAdapter extends ArrayAdapter<UserInfo> implements UpdateLis
 
         try {
             PinPointPosition ownPosition = PinPoint.getLogic().getOwnPosition();
-            String distanceStr = DistanceUtil.getDistanceStr(ownPosition, currentUserInfo.getPosition());
+            String distanceStr = PositionUtil.getDistanceStr(ownPosition, currentUserInfo.getPosition());
             distance.setText(distanceStr);
         } catch (GPSException ex) {
             distance.setText("");

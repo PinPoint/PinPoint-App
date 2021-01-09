@@ -28,6 +28,7 @@ import java.util.UUID;
 
 import de.pinpoint.app.logic.GPSException;
 import de.pinpoint.app.marker.MarkerIconCreator;
+import de.pinpoint.app.util.PositionUtil;
 import de.pinpoint.client.dataprovider.UpdateListener;
 import de.pinpoint.client.locationclient.PinPointPosition;
 import de.pinpoint.client.locationclient.UserInfo;
@@ -84,9 +85,7 @@ public class MapFragment extends Fragment implements UpdateListener {
 
         try {
             PinPointPosition ownPosition = PinPoint.getLogic().getOwnPosition();
-            double latitude = ownPosition.getLatitude();
-            double longitude = ownPosition.getLongitude();
-            startPoint = new GeoPoint(latitude, longitude);
+            startPoint = PositionUtil.toGeoPoint(ownPosition);
         } catch (GPSException e) {
             startPoint = new GeoPoint(52.516275, 13.377704);
         }
@@ -114,9 +113,7 @@ public class MapFragment extends Fragment implements UpdateListener {
     }
 
     public void zoomToUser(UserInfo info) {
-        double latitude = info.getPosition().getLatitude();
-        double longitude = info.getPosition().getLongitude();
-        GeoPoint zoomPoint = new GeoPoint(latitude, longitude);
+        GeoPoint zoomPoint = PositionUtil.toGeoPoint(info.getPosition());
         IMapController mapController = map.getController();
         mapController.setZoom(19.0);
         mapController.setCenter(zoomPoint);
@@ -144,7 +141,7 @@ public class MapFragment extends Fragment implements UpdateListener {
         for (UserInfo info: collection) {
             Marker marker = getOrCreateMarker(info);
             PinPointPosition position = info.getPosition();
-            marker.setPosition(new GeoPoint(position.getLatitude(), position.getLongitude()));
+            marker.setPosition(PositionUtil.toGeoPoint(position));
             this.updateIcon(marker, info);
             toRemove.remove(marker);
         }

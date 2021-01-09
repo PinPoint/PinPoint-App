@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import de.pinpoint.app.PinPoint;
+import de.pinpoint.app.util.Callback;
 import de.pinpoint.client.dataprovider.DataProvider;
 import de.pinpoint.client.locationclient.LocationClient;
 

@@ -10,7 +10,7 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import de.pinpoint.app.logic.Callback;
+import de.pinpoint.app.util.Callback;
 import de.pinpoint.client.locationclient.UserInfo;
 
 public class ListFragment extends Fragment {

@@ -15,8 +15,8 @@ public class UserInfoDistanceComparator implements Comparator<UserInfo> {
 
     @Override
     public int compare(UserInfo u1, UserInfo u2) {
-        double distToU1 = DistanceUtil.getDistance(fromPositon, u1.getPosition());
-        double distToU2 = DistanceUtil.getDistance(fromPositon, u2.getPosition());
+        double distToU1 = PositionUtil.getDistance(fromPositon, u1.getPosition());
+        double distToU2 = PositionUtil.getDistance(fromPositon, u2.getPosition());
         return Double.compare(distToU1, distToU2);
     }
 }

@@ -1,4 +1,4 @@
-package de.pinpoint.app.logic;
+package de.pinpoint.app.util;
 
 public interface Callback<T>  {
     public void call(T t);
