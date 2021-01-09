@@ -13,14 +13,28 @@ import de.pinpoint.client.locationclient.PinPointPosition;
 public class PositionProvider implements LocationListener {
     private Context context;
     private Location lastLocation;
+    private boolean gpsUpdatesRequested = false;
 
     @SuppressLint("MissingPermission")
     public PositionProvider(Context context) {
-        LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        this.context = context;
+        this.requestLocationUpdates();
+    }
+
+    private void requestLocationUpdates(){
+        try {
+            LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            gpsUpdatesRequested = true;
+        } catch(SecurityException ex){
+            System.out.println("GPS Permission not given yet....");
+        }
     }
 
     public PinPointPosition getPosition() throws GPSException{
+        if(!gpsUpdatesRequested){
+            this.requestLocationUpdates();
+        }
         if(lastLocation != null){
             return new PinPointPosition(lastLocation.getLongitude(), lastLocation.getLatitude());
         } else {
