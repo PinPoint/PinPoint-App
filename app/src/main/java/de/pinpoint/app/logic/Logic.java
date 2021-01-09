@@ -134,7 +134,8 @@ public class Logic {
         PinPoint.getUiAccess().setButtonDisabled();
         if (updater == null)
             return;
-        updater.stop();
+        this.updater.stop();
+        this.provider.clearCache();
     }
 
     public int getTheme() {
@@ -188,10 +189,6 @@ public class Logic {
 
     public Collection<UserInfo> getUsers() {
         return provider.getUsers();
-    }
-
-    public void clearUserInfoAdapter() {
-        uAdapter.clear();
     }
 
     public void setAContext(Context aContext) {
