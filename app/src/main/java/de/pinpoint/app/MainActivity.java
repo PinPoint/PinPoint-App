@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import okhttp3.CertificatePinner;
+
 public class MainActivity extends AppCompatActivity {
 
     private boolean active = false;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
             if (PinPoint.getLogic().isUpdaterRunning()) {
                 PinPoint.getLogic().stopUpdater();
                 mapFragment.onUpdate(Collections.emptyList());
+                PinPoint.getLogic().clearUserInfoAdapter();
                 snackbar = Snackbar.make(view, "Location sharing deactivated", Snackbar.LENGTH_LONG);
             } else {
                 PinPoint.getLogic().startUpdater();

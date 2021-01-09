@@ -103,6 +103,10 @@ public class MapFragment extends Fragment implements UpdateListener {
         markerByUuid.clear();
 
         Collection<UserInfo> info = PinPoint.getLogic().getUsers();
+
+        if (!PinPoint.getLogic().isUpdaterRunning())
+            return;
+
         updateMarkers(info);
 
         if (selectedUser != null) {

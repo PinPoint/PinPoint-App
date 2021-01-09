@@ -173,4 +173,8 @@ public class Logic {
     public Collection<UserInfo> getUsers() {
         return provider.getUsers();
     }
+
+    public void clearUserInfoAdapter() {
+        uAdapter.clear();
+    }
 }
