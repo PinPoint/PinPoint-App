@@ -21,7 +21,6 @@ import java.util.Collections;
 public class MainActivity extends AppCompatActivity {
 
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
-    private boolean active = false;
     private boolean mapActive = false;
     private MapFragment mapFragment;
     private ListFragment listFragment;
@@ -42,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
             Snackbar snackbar;
             if (PinPoint.getLogic().isUpdaterRunning()) {
                 PinPoint.getLogic().stopUpdater();
-                mapFragment.onUpdate(Collections.emptyList());
-                PinPoint.getLogic().clearUserInfoAdapter();
                 snackbar = Snackbar.make(view, "Location sharing deactivated", Snackbar.LENGTH_LONG);
             } else {
                 PinPoint.getLogic().startUpdater();
