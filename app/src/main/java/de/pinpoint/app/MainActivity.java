@@ -76,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         });
 
+        PinPoint.getLogic().setAContext(this);
+
         mapFragment = new MapFragment();
 
         PinPoint.getLogic().addUpdateListener(mapFragment);

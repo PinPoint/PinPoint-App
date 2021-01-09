@@ -195,4 +195,8 @@ public class Logic {
     public void clearUserInfoAdapter() {
         uAdapter.clear();
     }
+
+    public void setAContext(Context aContext) {
+        uAdapter.setAContext(aContext);
+    }
 }

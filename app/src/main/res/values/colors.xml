@@ -6,4 +6,5 @@
     <color name="colorError">#B00020</color>
     <color name="colorSuccess">#007E33</color>
     <color name="icons">#FFFFFF</color>
+    <color name="text">#000000</color>
 </resources>
