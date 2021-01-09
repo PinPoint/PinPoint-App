@@ -25,6 +25,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.UUID;
 
 import de.pinpoint.app.logic.GPSException;
@@ -146,7 +148,16 @@ public class MapFragment extends Fragment implements UpdateListener {
             toRemove.remove(marker);
         }
 
-        map.getOverlays().removeAll(toRemove);
+        Iterator<Map.Entry<UUID, Marker>> itr = this.markerByUuid.entrySet().iterator();
+        while(itr.hasNext()){
+            Map.Entry<UUID, Marker> entry = itr.next();
+            UUID uuid = entry.getKey();
+            Marker marker = entry.getValue();
+            if(toRemove.contains(marker)){
+                map.getOverlays().remove(marker);
+                itr.remove();
+            }
+        }
     }
 
     private Marker getOrCreateMarker(UserInfo info) {

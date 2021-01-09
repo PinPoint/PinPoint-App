@@ -16,6 +16,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             Snackbar snackbar;
             if (PinPoint.getLogic().isUpdaterRunning()) {
                 PinPoint.getLogic().stopUpdater();
+                mapFragment.onUpdate(Collections.emptyList());
                 snackbar = Snackbar.make(view, "Location sharing deactivated", Snackbar.LENGTH_LONG);
             } else {
                 PinPoint.getLogic().startUpdater();
