@@ -1,13 +1,9 @@
 package de.pinpoint.app.logic;
 
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
-import de.pinpoint.app.MainActivity;
 import de.pinpoint.app.PinPoint;
-import de.pinpoint.app.UserInfoAdapter;
 import de.pinpoint.client.dataprovider.DataProvider;
 import de.pinpoint.client.locationclient.LocationClient;
 

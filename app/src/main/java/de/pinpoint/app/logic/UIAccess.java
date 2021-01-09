@@ -3,7 +3,6 @@ package de.pinpoint.app.logic;
 import android.content.Context;
 
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

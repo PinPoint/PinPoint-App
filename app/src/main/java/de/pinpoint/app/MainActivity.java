@@ -16,10 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-
-import okhttp3.CertificatePinner;
 
 public class MainActivity extends AppCompatActivity {
 

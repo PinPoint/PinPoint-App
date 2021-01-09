@@ -3,7 +3,6 @@ package de.pinpoint.app;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.location.Location;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.graphics.drawable.DrawableCompat;
 
-import org.osmdroid.util.GeoPoint;
-
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import de.pinpoint.app.logic.GPSException;
 import de.pinpoint.app.util.DistanceUtil;
