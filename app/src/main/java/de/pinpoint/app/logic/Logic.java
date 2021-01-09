@@ -141,9 +141,8 @@ public class Logic {
         try {
             return prefStorage.getTheme();
         } catch (KeyNotFoundException e) {
-            e.printStackTrace();
+            return 0;
         }
-        return 0;
     }
 
     private void setTheme(int theme) {
