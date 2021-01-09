@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -167,5 +168,9 @@ public class Logic {
 
     public PinPointPosition getOwnPosition() throws GPSException {
         return this.positionProvider.getPosition();
+    }
+
+    public Collection<UserInfo> getUsers() {
+        return provider.getUsers();
     }
 }

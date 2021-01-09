@@ -37,6 +37,7 @@ public class MapFragment extends Fragment implements UpdateListener {
     private MapView map;
     private HashMap<UUID, Marker> markerByUuid = new HashMap<>();
     private Context context;
+    private UserInfo selectedUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -87,6 +88,24 @@ public class MapFragment extends Fragment implements UpdateListener {
         map.getOverlays().add(mLocationOverlay);
 
         markerByUuid.clear();
+
+        Collection<UserInfo> info = PinPoint.getLogic().getUsers();
+        updateMarkers(info);
+
+        if (selectedUser != null) {
+            zoomToUser(selectedUser);
+            selectedUser = null;
+        }
+
+    }
+
+    public void zoomToUser(UserInfo info) {
+        double latitude = info.getPosition().getLatitude();
+        double longitude = info.getPosition().getLongitude();
+        GeoPoint zoomPoint = new GeoPoint(latitude, longitude);
+        IMapController mapController = map.getController();
+        mapController.setZoom(19.0);
+        mapController.setCenter(zoomPoint);
     }
 
     @Override
@@ -159,5 +178,9 @@ public class MapFragment extends Fragment implements UpdateListener {
         String title = String.format(format, name, color, latitude, longitude);
 
         marker.setTitle(title);
+    }
+
+    public void setSelectedUser(UserInfo info) {
+        this.selectedUser = info;
     }
 }

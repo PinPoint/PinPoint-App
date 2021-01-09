@@ -7,19 +7,15 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-
-import okhttp3.CertificatePinner;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean mapActive = false;
 
     private MapFragment mapFragment;
-    private Fragment listFragment;
+    private ListFragment listFragment;
 
     private Toolbar bottomAppBar;
 
@@ -83,8 +79,13 @@ public class MainActivity extends AppCompatActivity {
 
         listFragment = new ListFragment();
 
-        switchFragment();
+        listFragment.setSwitchFragment(info -> {
+            mapFragment.setSelectedUser(info);
+            mapActive = !mapActive;
+            switchFragment();
+        });
 
+        switchFragment();
     }
 
     @Override
@@ -107,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
         if (mapActive) {
             ft.replace(R.id.fragment, mapFragment);
             icon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_arrow_back);
-
         }
         else {
             ft.replace(R.id.fragment, listFragment);
