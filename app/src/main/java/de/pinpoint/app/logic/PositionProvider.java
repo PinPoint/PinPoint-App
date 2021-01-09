@@ -5,9 +5,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 
 import androidx.annotation.NonNull;
 
+import de.pinpoint.app.PinPoint;
 import de.pinpoint.client.locationclient.PinPointPosition;
 
 public class PositionProvider implements LocationListener {
@@ -21,14 +23,18 @@ public class PositionProvider implements LocationListener {
     }
 
     private void requestLocationUpdates() {
-        try {
-            LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-            gpsUpdatesRequested = true;
-        } catch (SecurityException ex) {
-            System.out.println("GPS Permission not given yet....");
-        }
+        Handler mainHandler = new Handler(PinPoint.getmAppContext().getMainLooper());
+        mainHandler.post(() -> {
+            try {
+                LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+                manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+                gpsUpdatesRequested = true;
+            } catch (SecurityException ex) {
+                System.out.println("GPS Permission not given yet....");
+            }
+
+        });
     }
 
     public PinPointPosition getPosition() throws GPSException {
