@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
             switchFragment();
         });
         bottomAppBar.setOnMenuItemClickListener(item -> {
-            System.out.println(PinPoint.getLogic());
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             return false;
@@ -68,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
             switchFragment();
         });
         switchFragment();
+
+        if (PinPoint.getLogic().getName().equals("")) {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
