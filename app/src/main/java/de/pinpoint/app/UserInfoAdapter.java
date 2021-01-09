@@ -24,6 +24,8 @@ import java.util.Collection;
 import java.util.List;
 
 import de.pinpoint.app.logic.GPSException;
+import de.pinpoint.app.util.DistanceUtil;
+import de.pinpoint.app.util.UserInfoDistanceComparator;
 import de.pinpoint.client.dataprovider.UpdateListener;
 import de.pinpoint.client.locationclient.PinPointPosition;
 import de.pinpoint.client.locationclient.UserInfo;
@@ -57,7 +59,7 @@ public class UserInfoAdapter extends ArrayAdapter<UserInfo> implements UpdateLis
 
         try {
             PinPointPosition ownPosition = PinPoint.getLogic().getOwnPosition();
-            String distanceStr = getDistanceStr(ownPosition, currentUserInfo.getPosition());
+            String distanceStr = DistanceUtil.getDistanceStr(ownPosition, currentUserInfo.getPosition());
             distance.setText(distanceStr);
         } catch (GPSException ex) {
             distance.setText("");
@@ -80,21 +82,12 @@ public class UserInfoAdapter extends ArrayAdapter<UserInfo> implements UpdateLis
         mainHandler.post(() -> {
             this.clear();
             this.addAll(collection);
-        });
-    }
 
-    private String getDistanceStr(PinPointPosition pos1, PinPointPosition pos2) {
-        GeoPoint p1 = new GeoPoint(pos1.getLatitude(), pos2.getLongitude());
-        GeoPoint p2 = new GeoPoint(pos2.getLatitude(), pos2.getLongitude());
-        double meters = p1.distanceToAsDouble(p2);
-        System.out.println(meters);
-        String distanceStr;
-        if (meters > 999) {
-            double kilometers = meters / 1000;
-            distanceStr = String.format("%.2f km", kilometers);
-        } else {
-            distanceStr = String.valueOf((int) Math.round(meters)) + " m";
-        }
-        return distanceStr;
+            try {
+                PinPointPosition ownPosition = PinPoint.getLogic().getOwnPosition();
+                this.sort(new UserInfoDistanceComparator(ownPosition));
+            } catch (GPSException e) {
+            }
+        });
     }
 }
