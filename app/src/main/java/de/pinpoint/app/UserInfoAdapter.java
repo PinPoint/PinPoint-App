@@ -27,20 +27,13 @@ import de.pinpoint.client.locationclient.PinPointPosition;
 import de.pinpoint.client.locationclient.UserInfo;
 
 public class UserInfoAdapter extends ArrayAdapter<UserInfo> implements UpdateListener {
-
     private Context mContext;
     private Context aContext;
-
-    public UserInfoAdapter(@NonNull Context context, ArrayList<UserInfo> list) {
-        super(context, 0, list);
-        mContext = context;
-    }
 
     public UserInfoAdapter(@NonNull Context context) {
         super(context, 0, new ArrayList<>());
         mContext = context;
     }
-
 
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
@@ -48,12 +41,9 @@ public class UserInfoAdapter extends ArrayAdapter<UserInfo> implements UpdateLis
             listItem = LayoutInflater.from(aContext).inflate(R.layout.list_item, parent, false);
 
         UserInfo currentUserInfo = this.getItem(position);
-
         TextView name = (TextView) listItem.findViewById(R.id.name);
         name.setText(currentUserInfo.getName());
-
         TextView distance = (TextView) listItem.findViewById(R.id.distance);
-
         try {
             PinPointPosition ownPosition = PinPoint.getLogic().getOwnPosition();
             String distanceStr = PositionUtil.getDistanceStr(ownPosition, currentUserInfo.getPosition());
@@ -61,16 +51,11 @@ public class UserInfoAdapter extends ArrayAdapter<UserInfo> implements UpdateLis
         } catch (GPSException ex) {
             distance.setText("");
         }
-
         ImageView color = (ImageView) listItem.findViewById(R.id.color);
-
-
         Drawable unwrappedDrawable = AppCompatResources.getDrawable(mContext, R.drawable.ic_circle);
         Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
         DrawableCompat.setTint(wrappedDrawable, Color.parseColor(currentUserInfo.getColor()));
-
         color.setImageDrawable(wrappedDrawable);
-
         return listItem;
     }
 

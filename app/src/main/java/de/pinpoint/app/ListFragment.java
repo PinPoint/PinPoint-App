@@ -16,7 +16,6 @@ import de.pinpoint.client.locationclient.UserInfo;
 public class ListFragment extends Fragment {
     private ListView listView;
     private UserInfoAdapter uAdapter;
-
     private Callback<UserInfo> switchFragment;
 
     @Override
@@ -32,11 +31,8 @@ public class ListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         listView = (ListView) view.findViewById(R.id.userinfo_list);
-
         uAdapter = PinPoint.getLogic().getUAdapter();
-
         listView.setAdapter(uAdapter);
-
 
         listView.setOnItemClickListener((parent, v, position, id) -> {
             UserInfo userInfo = uAdapter.getItem((int) id);

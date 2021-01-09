@@ -9,7 +9,6 @@ import de.pinpoint.app.logic.UIAccess;
 public class PinPoint extends Application {
     private static Context mAppContext;
     private static Logic logic;
-
     private static UIAccess uiAccess;
 
     public static Logic getLogic() {

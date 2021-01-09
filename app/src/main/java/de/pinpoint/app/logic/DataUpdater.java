@@ -9,7 +9,6 @@ import de.pinpoint.client.dataprovider.DataProvider;
 import de.pinpoint.client.locationclient.LocationClient;
 
 public class DataUpdater implements Runnable {
-
     private final DataProvider provider;
     private boolean running;
     private Thread updaterThread;
@@ -39,7 +38,6 @@ public class DataUpdater implements Runnable {
             try {
                 Thread.sleep(TimeUnit.SECONDS.toMillis(5));
             } catch (InterruptedException e) {
-
             }
         }
     }

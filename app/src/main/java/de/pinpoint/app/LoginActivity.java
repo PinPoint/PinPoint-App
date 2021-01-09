@@ -18,24 +18,18 @@ import com.github.dhaval2404.colorpicker.model.ColorShape;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class LoginActivity extends AppCompatActivity {
-
     private int theme = 0;
-
     private String color = "#f44336";
-
     private EditText name = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         TextInputLayout nameLayout = findViewById(R.id.nameTextField);
         name = nameLayout.getEditText();
         name.setText(PinPoint.getLogic().getName());
-
         theme = PinPoint.getLogic().getTheme();
-
         color = PinPoint.getLogic().getColor();
 
         Spinner spinner = findViewById(R.id.themeSpinner);
@@ -52,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 

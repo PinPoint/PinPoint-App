@@ -31,5 +31,4 @@ public class UIAccess {
     public void setButtonDisabled() {
         fab.setBackgroundTintList(AppCompatResources.getColorStateList(mAppContext, R.color.colorError));
     }
-
 }

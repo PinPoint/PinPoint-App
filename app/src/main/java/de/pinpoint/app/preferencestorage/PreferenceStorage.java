@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import java.util.UUID;
 
 public class PreferenceStorage {
-
     private SharedPreferences sharedPref;
 
     public PreferenceStorage(Context context) {

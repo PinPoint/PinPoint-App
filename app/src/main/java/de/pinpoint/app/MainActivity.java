@@ -16,10 +16,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
-
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private boolean mapActive = false;
     private MapFragment mapFragment;
@@ -30,13 +28,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         FloatingActionButton fab = findViewById(R.id.locationFab);
-
         PinPoint.getUiAccess().setFab(fab);
-
         fab.setImageTintList(ContextCompat.getColorStateList(this, R.color.icons));
-
         fab.setOnClickListener(view -> {
             Snackbar snackbar;
             if (PinPoint.getLogic().isUpdaterRunning()) {
@@ -49,40 +43,30 @@ public class MainActivity extends AppCompatActivity {
             snackbar.setAnchorView(view);
             snackbar.show();
         });
-
         bottomAppBar = findViewById(R.id.bottomAppBar);
-
         bottomAppBar.setNavigationOnClickListener(view -> {
             mapActive = !mapActive;
             switchFragment();
         });
-
         bottomAppBar.setOnMenuItemClickListener(item -> {
             System.out.println(PinPoint.getLogic());
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             return false;
         });
-
         requestPermissionsIfNecessary(new String[]{
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         });
-
         PinPoint.getLogic().setAContext(this);
-
         mapFragment = new MapFragment();
-
         PinPoint.getLogic().addUpdateListener(mapFragment);
-
         listFragment = new ListFragment();
-
         listFragment.setSwitchFragment(info -> {
             mapFragment.setSelectedUser(info);
             mapActive = !mapActive;
             switchFragment();
         });
-
         switchFragment();
     }
 

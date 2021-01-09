@@ -34,20 +34,15 @@ public class Logic {
     public Logic(Context context) {
         this.context = context;
         this.prefStorage = new PreferenceStorage(context);
-
         this.uAdapter = new UserInfoAdapter(context);
-
         try {
             setTheme(prefStorage.getTheme());
         } catch (KeyNotFoundException ignored) {
         }
-
         this.positionProvider = new PositionProvider(context);
-
         RestClientFactory factory = new RestClientFactory();
         LocationClient client = factory.produceRestClient("https://thedst.de/pinpoint/api/v1/");
         this.provider = new DataProvider(client);
-
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
@@ -78,9 +73,7 @@ public class Logic {
     }
 
     private void noInternet(InternetException cause) {
-        System.out.println("Connection to server failed: " +
-                cause.getClass().getSimpleName() + " " + cause.getMessage());
-
+        System.out.printf("Internet Error: %s %s", cause.getClass().getSimpleName(), cause.getMessage());
         Handler mainHandler = new Handler(context.getMainLooper());
         mainHandler.post(() -> {
             String text = "No internet connection";
@@ -88,14 +81,11 @@ public class Logic {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         });
-
         this.stopUpdater();
     }
 
     private void noGPS(GPSException cause) {
-        System.out.println("Gettings GPS Data failed: " +
-                cause.getClass().getSimpleName() + " " + cause.getMessage());
-
+        System.out.printf("GPS Error: %s %s", cause.getClass().getSimpleName(), cause.getMessage());
         Handler mainHandler = new Handler(context.getMainLooper());
         mainHandler.post(() -> {
             String text = "No GPS";
@@ -103,7 +93,6 @@ public class Logic {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         });
-
         this.stopUpdater();
     }
 
@@ -148,12 +137,13 @@ public class Logic {
     }
 
     private void setTheme(int theme) {
-        if (theme == 0)
+        if (theme == 0) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-        else if (theme == 1)
+        } else if (theme == 1) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        else
+        } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     public String getName() {

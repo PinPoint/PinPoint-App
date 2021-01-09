@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import de.pinpoint.app.logic.GPSException;
+import de.pinpoint.app.logic.Logic;
 import de.pinpoint.app.marker.MarkerIconCreator;
 import de.pinpoint.app.util.PositionUtil;
 import de.pinpoint.client.dataprovider.UpdateListener;
@@ -34,7 +35,6 @@ import de.pinpoint.client.locationclient.PinPointPosition;
 import de.pinpoint.client.locationclient.UserInfo;
 
 public class MapFragment extends Fragment implements UpdateListener {
-
     private MapView map;
     private HashMap<UUID, Marker> markerByUuid = new HashMap<>();
     private Context context;
@@ -66,53 +66,44 @@ public class MapFragment extends Fragment implements UpdateListener {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         context = getActivity().getApplicationContext();
-
         Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
         map = (MapView) view.findViewById(R.id.map);
         map.setBuiltInZoomControls(false);
         map.setMultiTouchControls(true);
         map.setTileSource(TileSourceFactory.MAPNIK);
-
-        /*
-        RotationGestureOverlay mRotationGestureOverlay = new RotationGestureOverlay(context, map);
-        mRotationGestureOverlay.setEnabled(true);
-        map.getOverlays().add(mRotationGestureOverlay);
-         */
-
-        IMapController mapController = map.getController();
-        mapController.setZoom(9.5);
-        GeoPoint startPoint;
-
-        try {
-            PinPointPosition ownPosition = PinPoint.getLogic().getOwnPosition();
-            startPoint = PositionUtil.toGeoPoint(ownPosition);
-        } catch (GPSException e) {
-            startPoint = new GeoPoint(52.516275, 13.377704);
-        }
-
-        mapController.setCenter(startPoint);
-
         MyLocationNewOverlay mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context), map);
         mLocationOverlay.enableMyLocation();
         map.getOverlays().add(mLocationOverlay);
-
         markerByUuid.clear();
 
-        Collection<UserInfo> info = PinPoint.getLogic().getUsers();
-
-        if (!PinPoint.getLogic().isUpdaterRunning())
-            return;
-
-        updateMarkers(info);
-
-        if (selectedUser != null) {
-            zoomToUser(selectedUser);
-            selectedUser = null;
+        if (this.selectedUser != null) {
+            zoomToUser(this.selectedUser);
+            this.selectedUser = null;
+        } else {
+            this.zoomToOwn();
         }
 
+        Logic logic = PinPoint.getLogic();
+        if (logic.isUpdaterRunning()) {
+            Collection<UserInfo> info = logic.getUsers();
+            this.updateMarkers(info);
+        }
     }
 
-    public void zoomToUser(UserInfo info) {
+    private void zoomToOwn() {
+        GeoPoint zoomPoint;
+        try {
+            PinPointPosition ownPosition = PinPoint.getLogic().getOwnPosition();
+            zoomPoint = PositionUtil.toGeoPoint(ownPosition);
+        } catch (GPSException e) {
+            zoomPoint = new GeoPoint(52.516275, 13.377704);
+        }
+        IMapController mapController = map.getController();
+        mapController.setZoom(9.5);
+        mapController.setCenter(zoomPoint);
+    }
+
+    private void zoomToUser(UserInfo info) {
         GeoPoint zoomPoint = PositionUtil.toGeoPoint(info.getPosition());
         IMapController mapController = map.getController();
         mapController.setZoom(19.0);
@@ -149,7 +140,6 @@ public class MapFragment extends Fragment implements UpdateListener {
         Iterator<Map.Entry<UUID, Marker>> itr = this.markerByUuid.entrySet().iterator();
         while (itr.hasNext()) {
             Map.Entry<UUID, Marker> entry = itr.next();
-            UUID uuid = entry.getKey();
             Marker marker = entry.getValue();
             if (toRemove.contains(marker)) {
                 map.getOverlays().remove(marker);
@@ -167,16 +157,13 @@ public class MapFragment extends Fragment implements UpdateListener {
             marker = createMarker(info);
             markerByUuid.put(uuid, marker);
         }
-        //marker.setTextIcon(info.getName());
         return marker;
-
     }
 
     private Marker createMarker(UserInfo info) {
         Marker marker = new Marker(map);
         this.updateIcon(marker, info);
         map.getOverlays().add(marker);
-
         return marker;
     }
 
@@ -184,19 +171,14 @@ public class MapFragment extends Fragment implements UpdateListener {
         MarkerIconCreator creator = new MarkerIconCreator();
         creator.setColor(info.getColor());
         creator.setName(info.getName());
-
         marker.setIcon(creator.createIcon(context));
-
         marker.setAnchor(0.5f, 0.92f);
-
         String name = info.getName();
         String color = info.getColor();
         double latitude = info.getPosition().getLatitude();
         double longitude = info.getPosition().getLongitude();
-
         String format = "Name: %s\nColor: %s\nLatitude: %.4f\nLongitude: %.4f";
         String title = String.format(format, name, color, latitude, longitude);
-
         marker.setTitle(title);
     }
 

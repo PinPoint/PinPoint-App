@@ -71,5 +71,4 @@ public class MarkerIconCreator {
     public void setColor(String color) {
         this.color = color;
     }
-
 }
