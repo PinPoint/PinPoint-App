@@ -6,6 +6,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -31,9 +32,8 @@ public class PositionProvider implements LocationListener {
                 manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
                 gpsUpdatesRequested = true;
             } catch (SecurityException ex) {
-                System.out.println("GPS Permission not given yet....");
+                Log.println(Log.WARN, "PinPoint", "GPS Permission not given yet...");
             }
-
         });
     }
 
@@ -50,7 +50,7 @@ public class PositionProvider implements LocationListener {
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
-        System.out.println("location listener updated");
+        Log.println(Log.DEBUG, "PinPoint", "location listener updated");
         this.lastLocation = location;
     }
 
