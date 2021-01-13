@@ -1,12 +1,12 @@
 package de.pinpoint.app;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -16,6 +16,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+
+import de.pinpoint.app.logic.Logic;
 
 public class MainActivity extends AppCompatActivity {
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
@@ -31,18 +33,24 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.locationFab);
         PinPoint.getUiAccess().setFab(fab);
         fab.setImageTintList(ContextCompat.getColorStateList(this, R.color.icons));
+        final Logic logic = PinPoint.getLogic();
         fab.setOnClickListener(view -> {
             Snackbar snackbar;
-            if (PinPoint.getLogic().isUpdaterRunning()) {
-                PinPoint.getLogic().stopUpdater();
+            if (logic.isUpdaterRunning()) {
+                logic.stopUpdater();
                 snackbar = Snackbar.make(view, "Location sharing deactivated", Snackbar.LENGTH_LONG);
             } else {
-                PinPoint.getLogic().startUpdater();
+                logic.startUpdater();
                 snackbar = Snackbar.make(view, "Location sharing activated", Snackbar.LENGTH_LONG);
             }
             snackbar.setAnchorView(view);
             snackbar.show();
         });
+        boolean buttonEnabled = logic.isUpdaterRunning();
+        int buttonColor = buttonEnabled ? R.color.colorSuccess : R.color.colorError;
+        ColorStateList buttonColorList = AppCompatResources.getColorStateList(this.getApplicationContext(), buttonColor);
+        fab.setBackgroundTintList(buttonColorList);
+
         bottomAppBar = findViewById(R.id.bottomAppBar);
         bottomAppBar.setNavigationOnClickListener(view -> {
             mapActive = !mapActive;
