@@ -1,6 +1,7 @@
 package de.pinpoint.app.logic;
 
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.util.concurrent.TimeUnit;
 
 import de.pinpoint.app.PinPoint;
@@ -46,6 +47,8 @@ public class DataUpdater implements Runnable {
         try {
             client.postInfo(PinPoint.getLogic().getUserInfo());
             provider.invokeUpdate();
+        } catch(InterruptedIOException ex){
+            // our request was interrupted by the user
         } catch (IOException e) {
             this.internetExceptionHandler.call(new InternetException(e.getMessage(), e));
         } catch (GPSException e) {

@@ -73,7 +73,8 @@ public class Logic {
     }
 
     private void noInternet(InternetException cause) {
-        System.out.printf("Internet Error: %s %s", cause.getClass().getSimpleName(), cause.getMessage());
+        cause.printStackTrace();
+        System.out.printf("Internet Error: %s: %s", cause.getClass().getSimpleName(), cause.getMessage());
         Handler mainHandler = new Handler(context.getMainLooper());
         mainHandler.post(() -> {
             String text = "No internet connection";
@@ -85,7 +86,7 @@ public class Logic {
     }
 
     private void noGPS(GPSException cause) {
-        System.out.printf("GPS Error: %s %s", cause.getClass().getSimpleName(), cause.getMessage());
+        System.out.printf("GPS Error: %s: %s", cause.getClass().getSimpleName(), cause.getMessage());
         Handler mainHandler = new Handler(context.getMainLooper());
         mainHandler.post(() -> {
             String text = "No GPS";
