@@ -163,6 +163,9 @@ public class Logic {
     }
 
     public boolean isUpdaterRunning() {
+        if(updater == null){
+            return false;
+        }
         return updater.isRunning();
     }
 

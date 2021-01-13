@@ -49,6 +49,7 @@ public class DataUpdater implements Runnable {
             provider.invokeUpdate();
         } catch(InterruptedIOException ex){
             // our request was interrupted by the user
+            Thread.currentThread().interrupt();
         } catch (IOException e) {
             this.internetExceptionHandler.call(new InternetException(e.getMessage(), e));
         } catch (GPSException e) {

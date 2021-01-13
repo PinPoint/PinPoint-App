@@ -46,10 +46,6 @@ public class MainActivity extends AppCompatActivity {
             snackbar.setAnchorView(view);
             snackbar.show();
         });
-        boolean buttonEnabled = logic.isUpdaterRunning();
-        int buttonColor = buttonEnabled ? R.color.colorSuccess : R.color.colorError;
-        ColorStateList buttonColorList = AppCompatResources.getColorStateList(this.getApplicationContext(), buttonColor);
-        fab.setBackgroundTintList(buttonColorList);
 
         bottomAppBar = findViewById(R.id.bottomAppBar);
         bottomAppBar.setNavigationOnClickListener(view -> {
@@ -78,6 +74,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         }
+
+        boolean buttonEnabled = logic.isUpdaterRunning();
+        int buttonColor = buttonEnabled ? R.color.colorSuccess : R.color.colorError;
+        ColorStateList buttonColorList = AppCompatResources.getColorStateList(this.getApplicationContext(), buttonColor);
+        fab.setBackgroundTintList(buttonColorList);
     }
 
     @Override
